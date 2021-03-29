@@ -124,7 +124,7 @@ node n2 {
 	custom-command setup.sh
 	config {
 	ip addr add 130.13.0.2/16 dev eth0
-	!ip route add default via 192.168.0.10 dev eth0
+	ip route add default via 130.13.0.10 dev eth0
 	}
     }
     services {DefaultRoute SSH UserDefined}
@@ -156,7 +156,8 @@ node n5 {
 	custom-command setup.sh
 	config {
 	ip addr add 130.14.0.2/16 dev eth0
-	!ip route add default via 192.168.0.10 dev eth0
+	ip route add default via 130.14.0.10 dev eth0
+	
 	}
     }
     services {DefaultRoute SSH UserDefined}
@@ -409,8 +410,8 @@ node n13 {
 	!
     }
     canvas c1
-    iconcoords {99.66666666666667 82.0}
-    labelcoords {99.66666666666667 114.0}
+    iconcoords {99.66666666666667 80.5}
+    labelcoords {99.66666666666667 112.5}
     custom-config {
 	custom-config-id service:UserDefined
 	custom-command UserDefined
@@ -424,7 +425,7 @@ node n13 {
 	custom-command setup.sh
 	config {
 	ip addr add 130.13.0.1/16 dev eth0
-	!ip route add default via 192.168.0.10 dev eth0
+	ip route add default via 130.13.0.10 dev eth0
 	}
     }
     services {DefaultRoute SSH UserDefined}
@@ -547,8 +548,8 @@ node n22 {
 	!
     }
     canvas c1
-    iconcoords {626.0 72.99999999999993}
-    labelcoords {626.0 104.99999999999993}
+    iconcoords {626.0 72.49999999999993}
+    labelcoords {626.0 104.49999999999993}
     services {zebra IPForward}
     custom-config {
 	custom-config-id service:zebra
@@ -575,6 +576,7 @@ node n22 {
 	ip route 130.11.0.0/16 eth1
 	ip route 130.12.0.0/16 eth2
 	ip route 130.14.0.0/16 130.10.0.11
+	ip route 130.13.0.0/16 130.12.0.11
 	
 	}
     }
@@ -595,8 +597,8 @@ node n23 {
 	!
     }
     canvas c1
-    iconcoords {405.3333333333333 147.99999999999991}
-    labelcoords {405.3333333333333 179.99999999999991}
+    iconcoords {404.3333333333333 149.49999999999991}
+    labelcoords {404.3333333333333 181.49999999999991}
     services {zebra IPForward}
     custom-config {
 	custom-config-id service:zebra
@@ -616,9 +618,10 @@ node n23 {
 	ip address 130.13.0.10/16
 	!
 	
-	!ip route 192.168.0.0/24 eth0
-	!ip route 192.168.1.0/24 eth1
-	!ip route 192.168.2.0/24 192.168.1.11
+	ip route 130.12.0.0/16 eth0
+	ip route 130.13.0.0/16 eth1
+	ip route 0.0.0.0/0 130.12.0.10
+	
 	}
     }
     interface-peer {eth0 n22}
@@ -662,6 +665,7 @@ node n24 {
 	
 	ip route 130.10.0.0/16 eth0
 	ip route 130.14.0.0/16 eth1
+	ip route 0.0.0.0/0 130.10.0.10
 	
 	}
     }
