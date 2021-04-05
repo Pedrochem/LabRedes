@@ -507,8 +507,8 @@ node n22 {
 	!
     }
     canvas c1
-    iconcoords {627.0 71.49999999999989}
-    labelcoords {627.0 103.49999999999989}
+    iconcoords {628.0 71.49999999999989}
+    labelcoords {628.0 103.49999999999989}
     services {zebra IPForward}
     custom-config {
 	custom-config-id service:zebra
@@ -890,6 +890,783 @@ node n26 {
     interface-peer {eth0 n18}
 }
 
+node n27 {
+    type router
+    model router
+    network-config {
+	hostname n27
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c2
+    iconcoords {265.0 226.0}
+    labelcoords {265.0 258.0}
+    interface-peer {eth0 n31}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.192.1/19
+	!
+	interface eth1
+	ip address 210.0.0.2/24
+	!
+	
+	ip route 130.10.192.0/19 eth0
+	ip route 130.10.224.0/19 130.10.192.2
+	
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth1 n35}
+}
+
+node n31 {
+    type router
+    model router
+    network-config {
+	hostname n31
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c2
+    iconcoords {557.0 226.0}
+    labelcoords {557.0 258.0}
+    interface-peer {eth0 n27}
+    interface-peer {eth1 n32}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.192.2/19
+	!
+	interface eth1
+	ip address 130.10.224.1/19
+	!
+	
+	ip route 130.10.192.0/19 eth0
+	ip route 130.10.224.0/19 eth1
+	ip route 0.0.0.0/0 130.10.192.1
+	
+	}
+    }
+    services {zebra IPForward}
+}
+
+node n32 {
+    type hub
+    network-config {
+	hostname n32
+	!
+    }
+    canvas c2
+    iconcoords {768.0 223.0}
+    labelcoords {768.0 247.0}
+    interface-peer {e0 n31}
+    interface-peer {e1 n33}
+    interface-peer {e2 n34}
+}
+
+node n33 {
+    type router
+    model host
+    network-config {
+	hostname n33
+	!
+	interface eth0
+	!
+    }
+    canvas c2
+    iconcoords {933.0 125.0}
+    labelcoords {933.0 157.0}
+    interface-peer {eth0 n32}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('setup.sh', )
+	cmdup=('sh setup.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:setup.sh
+	custom-command setup.sh
+	config {
+	ip addr add 130.10.224.2/19 dev eth0
+	ip route add default via 130.10.224.1 dev eth0
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n34 {
+    type router
+    model host
+    network-config {
+	hostname n34
+	!
+	interface eth0
+	!
+    }
+    canvas c2
+    iconcoords {933.0 325.0}
+    labelcoords {933.0 357.0}
+    interface-peer {eth0 n32}
+}
+
+node n35 {
+    type router
+    model router
+    network-config {
+	hostname n35
+	!
+	interface eth0
+	!
+    }
+    canvas c2
+    iconcoords {267.0 75.0}
+    labelcoords {267.0 107.0}
+    interface-peer {eth0 n27}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 210.0.0.1/24
+	!
+	
+	}
+    }
+    services {zebra IPForward}
+}
+
+node n36 {
+    type router
+    model router
+    network-config {
+	hostname Internet
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {457.0 101.0}
+    labelcoords {457.0 133.0}
+    interface-peer {eth0 n37}
+}
+
+node n37 {
+    type router
+    model router
+    network-config {
+	hostname n1
+	!
+	interface eth4
+	!
+	interface eth3
+	!
+	interface eth2
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {457.0 239.0}
+    labelcoords {457.0 271.0}
+    interface-peer {eth0 n36}
+    interface-peer {eth1 n38}
+    interface-peer {eth2 n39}
+    interface-peer {eth3 n40}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 210.0.0.10/24
+	!
+	interface eth1
+	ip address 130.10.0.10/19
+	!
+	interface eth2
+	ip address 130.10.64.1/19
+	!
+	interface eth3
+	ip address 130.10.128.1/19
+	!
+	interface eth4
+	ip address 130.10.192.10/20
+	
+	ip route 130.10.0.0/19 eth1
+	ip route 130.10.192.0/20 eth4
+	
+	ip route 130.10.32.0/19 130.10.0.11
+	ip route 130.10.208.0/20 130.10.192.11
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth4 n41}
+}
+
+node n38 {
+    type router
+    model router
+    network-config {
+	hostname n2
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {207.0 297.0}
+    labelcoords {207.0 329.0}
+    interface-peer {eth0 n37}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.0.11/19
+	!
+	interface eth1
+	ip address 130.10.32.10/19
+	
+	ip route 130.10.0.0/19 eth0
+	ip route 130.10.32.0/19 eth1
+	ip route 0.0.0.0/0 130.10.0.10
+	
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth1 n49}
+}
+
+node n39 {
+    type router
+    model router
+    network-config {
+	hostname n3
+	!
+	interface eth3
+	!
+	interface eth2
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {345.0 447.0}
+    labelcoords {345.0 479.0}
+    interface-peer {eth0 n37}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.64.2/19
+	!
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth1 n44}
+    interface-peer {eth2 n47}
+    interface-peer {eth3 n48}
+}
+
+node n40 {
+    type router
+    model router
+    network-config {
+	hostname n4
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {647.0 442.0}
+    labelcoords {647.0 474.0}
+    interface-peer {eth0 n37}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.128.2/19
+	!
+	
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth1 n45}
+}
+
+node n41 {
+    type router
+    model router
+    network-config {
+	hostname n5
+	!
+	interface eth3
+	!
+	interface eth2
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {804.0 272.0}
+    labelcoords {804.0 304.0}
+    interface-peer {eth0 n37}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.192.11/20
+	!
+	interface eth1
+	ip address 130.10.208.10/20
+	
+	ip route 130.10.192.0/20 eth0
+	ip route 130.10.208.0/20 eth1
+	ip route 0.0.0.0/0 130.10.192.10
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth1 n42}
+    interface-peer {eth2 n46}
+    interface-peer {eth3 n43}
+}
+
+node n42 {
+    type hub
+    network-config {
+	hostname n42
+	!
+    }
+    canvas c3
+    iconcoords {993.0 111.0}
+    labelcoords {993.0 135.0}
+    interface-peer {e0 n41}
+    interface-peer {e1 n57}
+    interface-peer {e2 n55}
+}
+
+node n43 {
+    type hub
+    network-config {
+	hostname n43
+	!
+    }
+    canvas c3
+    iconcoords {927.0 438.0}
+    labelcoords {927.0 462.0}
+    interface-peer {e0 n41}
+    interface-peer {e1 n60}
+    interface-peer {e2 n61}
+}
+
+node n44 {
+    type hub
+    network-config {
+	hostname n44
+	!
+    }
+    canvas c3
+    iconcoords {420.0 585.0}
+    labelcoords {421.0 612.0}
+    interface-peer {e0 n39}
+    interface-peer {e1 n56}
+    interface-peer {e2 n53}
+}
+
+node n45 {
+    type lanswitch
+    network-config {
+	hostname n45
+	!
+    }
+    canvas c3
+    iconcoords {672.0 583.0}
+    labelcoords {672.0 607.0}
+    interface-peer {e0 n40}
+    interface-peer {e1 n58}
+}
+
+node n46 {
+    type lanswitch
+    network-config {
+	hostname n46
+	!
+    }
+    canvas c3
+    iconcoords {1026.0 286.0}
+    labelcoords {1026.0 310.0}
+    interface-peer {e0 n41}
+    interface-peer {e1 n59}
+}
+
+node n47 {
+    type lanswitch
+    network-config {
+	hostname n47
+	!
+    }
+    canvas c3
+    iconcoords {263.0 592.0}
+    labelcoords {263.0 616.0}
+    interface-peer {e0 n39}
+    interface-peer {e1 n54}
+}
+
+node n48 {
+    type lanswitch
+    network-config {
+	hostname n48
+	!
+    }
+    canvas c3
+    iconcoords {170.0 506.0}
+    labelcoords {170.0 530.0}
+    interface-peer {e0 n39}
+    interface-peer {e1 n52}
+}
+
+node n49 {
+    type lanswitch
+    network-config {
+	hostname n49
+	!
+    }
+    canvas c3
+    iconcoords {66.0 274.0}
+    labelcoords {66.0 298.0}
+    interface-peer {e0 n38}
+    interface-peer {e1 n51}
+    interface-peer {e2 n50}
+}
+
+node n50 {
+    type router
+    model host
+    network-config {
+	hostname n50
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {14.0 374.0}
+    labelcoords {14.0 406.0}
+    interface-peer {eth0 n49}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('setup.sh', )
+	cmdup=('sh setup.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:setup.sh
+	custom-command setup.sh
+	config {
+	ip addr add 130.10.32.2/19 dev eth0
+	ip route add default via 130.10.32.10 dev eth0
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n51 {
+    type router
+    model host
+    network-config {
+	hostname n51
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {11.0 190.0}
+    labelcoords {11.0 222.0}
+    interface-peer {eth0 n49}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('setup.sh', )
+	cmdup=('sh setup.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:setup.sh
+	custom-command setup.sh
+	config {
+	ip addr add 130.10.32.1/19 dev eth0
+	ip route add default via 130.10.32.10 dev eth0
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n52 {
+    type router
+    model host
+    network-config {
+	hostname n52
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {42.0 553.0}
+    labelcoords {42.0 585.0}
+    interface-peer {eth0 n48}
+}
+
+node n53 {
+    type router
+    model host
+    network-config {
+	hostname n53
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {513.0 682.0}
+    labelcoords {513.0 714.0}
+    interface-peer {eth0 n44}
+}
+
+node n54 {
+    type router
+    model host
+    network-config {
+	hostname n54
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {213.0 685.0}
+    labelcoords {213.0 717.0}
+    interface-peer {eth0 n47}
+}
+
+node n56 {
+    type router
+    model host
+    network-config {
+	hostname n56
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {427.0 692.0}
+    labelcoords {427.0 724.0}
+    interface-peer {eth0 n44}
+}
+
+node n58 {
+    type router
+    model host
+    network-config {
+	hostname n58
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {638.0 691.0}
+    labelcoords {638.0 723.0}
+    interface-peer {eth0 n45}
+}
+
+node n59 {
+    type router
+    model host
+    network-config {
+	hostname n59
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {1132.0 328.0}
+    labelcoords {1132.0 360.0}
+    interface-peer {eth0 n46}
+}
+
+node n60 {
+    type router
+    model host
+    network-config {
+	hostname n60
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {952.0 536.0}
+    labelcoords {952.0 568.0}
+    interface-peer {eth0 n43}
+}
+
+node n61 {
+    type router
+    model host
+    network-config {
+	hostname n61
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {1031.0 494.0}
+    labelcoords {1031.0 526.0}
+    interface-peer {eth0 n43}
+}
+
+node n55 {
+    type router
+    model host
+    network-config {
+	hostname n55
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {1049.0 38.0}
+    labelcoords {1049.0 70.0}
+    interface-peer {eth0 n42}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('setup.sh', )
+	cmdup=('sh setup.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:setup.sh
+	custom-command setup.sh
+	config {
+	ip addr add 130.10.208.1/20 dev eth0
+	ip route add default via 130.10.208.10 dev eth0
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
+node n57 {
+    type router
+    model host
+    network-config {
+	hostname n57
+	!
+	interface eth0
+	!
+    }
+    canvas c3
+    iconcoords {1165.0 123.0}
+    labelcoords {1165.0 155.0}
+    interface-peer {eth0 n42}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('setup.sh', )
+	cmdup=('sh setup.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:setup.sh
+	custom-command setup.sh
+	config {
+	ip addr add 130.10.208.2/20 dev eth0
+	ip route add default via 130.10.208.10 dev eth0
+	}
+    }
+    services {DefaultRoute SSH UserDefined}
+}
+
 link l1 {
     nodes {n1 n3}
     bandwidth 0
@@ -1027,6 +1804,156 @@ link l24 {
 
 link l25 {
     nodes {n26 n18}
+    bandwidth 0
+}
+
+link l29 {
+    nodes {n27 n31}
+    bandwidth 0
+}
+
+link l30 {
+    nodes {n31 n32}
+    bandwidth 0
+}
+
+link l31 {
+    nodes {n32 n33}
+    bandwidth 0
+}
+
+link l32 {
+    nodes {n32 n34}
+    bandwidth 0
+}
+
+link l33 {
+    nodes {n35 n27}
+    bandwidth 0
+}
+
+link l34 {
+    nodes {n36 n37}
+    bandwidth 0
+}
+
+link l35 {
+    nodes {n37 n38}
+    bandwidth 0
+}
+
+link l36 {
+    nodes {n37 n39}
+    bandwidth 0
+}
+
+link l37 {
+    nodes {n37 n40}
+    bandwidth 0
+}
+
+link l38 {
+    nodes {n37 n41}
+    bandwidth 0
+}
+
+link l39 {
+    nodes {n41 n42}
+    bandwidth 0
+}
+
+link l40 {
+    nodes {n41 n46}
+    bandwidth 0
+}
+
+link l41 {
+    nodes {n41 n43}
+    bandwidth 0
+}
+
+link l42 {
+    nodes {n40 n45}
+    bandwidth 0
+}
+
+link l43 {
+    nodes {n39 n44}
+    bandwidth 0
+}
+
+link l44 {
+    nodes {n39 n47}
+    bandwidth 0
+}
+
+link l45 {
+    nodes {n39 n48}
+    bandwidth 0
+}
+
+link l46 {
+    nodes {n38 n49}
+    bandwidth 0
+}
+
+link l47 {
+    nodes {n51 n49}
+    bandwidth 0
+}
+
+link l48 {
+    nodes {n50 n49}
+    bandwidth 0
+}
+
+link l49 {
+    nodes {n52 n48}
+    bandwidth 0
+}
+
+link l50 {
+    nodes {n54 n47}
+    bandwidth 0
+}
+
+link l51 {
+    nodes {n56 n44}
+    bandwidth 0
+}
+
+link l52 {
+    nodes {n53 n44}
+    bandwidth 0
+}
+
+link l53 {
+    nodes {n58 n45}
+    bandwidth 0
+}
+
+link l54 {
+    nodes {n60 n43}
+    bandwidth 0
+}
+
+link l55 {
+    nodes {n61 n43}
+    bandwidth 0
+}
+
+link l56 {
+    nodes {n59 n46}
+    bandwidth 0
+}
+
+link l57 {
+    nodes {n57 n42}
+    bandwidth 0
+}
+
+link l58 {
+    nodes {n55 n42}
     bandwidth 0
 }
 
@@ -1495,7 +2422,7 @@ annotation a53 {
     label {130.18.0.10/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1505,7 +2432,7 @@ annotation a54 {
     label {130.18.0.11/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1515,7 +2442,7 @@ annotation a55 {
     label {130.19.0.10/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1525,7 +2452,7 @@ annotation a56 {
     label {130.19.0.1/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1535,7 +2462,7 @@ annotation a57 {
     label {130.19.0.2/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1545,7 +2472,7 @@ annotation a58 {
     label {130.18.0.0/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 14
+    fontsize {14}
     effects {bold}
     canvas c1
 }
@@ -1556,7 +2483,7 @@ annotation a59 {
     label {130.19.0.0/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 14
+    fontsize {14}
     effects {bold}
     canvas c1
 }
@@ -1567,7 +2494,7 @@ annotation a60 {
     label {130.20.0.10/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1577,7 +2504,7 @@ annotation a61 {
     label {130.21.0.10/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1587,7 +2514,7 @@ annotation a62 {
     label {130.20.0.1/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1597,7 +2524,7 @@ annotation a63 {
     label {130.20.0.2/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1607,7 +2534,7 @@ annotation a64 {
     label {130.20.0.0/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 14
+    fontsize {14}
     effects {bold}
     canvas c1
 }
@@ -1618,7 +2545,7 @@ annotation a65 {
     label {130.21.0.0/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 14
+    fontsize {14}
     effects {bold}
     canvas c1
 }
@@ -1629,7 +2556,7 @@ annotation a66 {
     label {130.21.0.1/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1639,8 +2566,339 @@ annotation a67 {
     label {130.21.0.2/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
+}
+
+annotation a68 {
+    iconcoords {270.0 198.0}
+    type text
+    label {130.10.192.1/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c2
+}
+
+annotation a69 {
+    type text
+    iconcoords {311.0 204.0}
+    label {}
+    canvas c2
+}
+
+annotation a70 {
+    iconcoords {432.0 199.0}
+    type text
+    label {130.10.192.2/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c2
+}
+
+annotation a71 {
+    iconcoords {573.0 199.0}
+    type text
+    label {130.10.224.1/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c2
+}
+
+annotation a72 {
+    iconcoords {800.0 111.0}
+    type text
+    label {130.10.224.2/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c2
+}
+
+annotation a73 {
+    iconcoords {793.0 332.0}
+    type text
+    label {130.10.224.3/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c2
+}
+
+annotation a74 {
+    iconcoords {383.0 37.0}
+    type text
+    label {Rede 130.10.0.0/16}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {14}
+    effects {bold}
+    canvas c3
+}
+
+annotation a75 {
+    type text
+    iconcoords {430.0 38.0}
+    label {}
+    canvas c3
+}
+
+annotation a76 {
+    iconcoords {490.0 133.0}
+    type text
+    label {210.0.0.1/24}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a77 {
+    iconcoords {467.0 190.0}
+    type text
+    label {210.0.0.2/24}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a78 {
+    type text
+    iconcoords {526.0 172.0}
+    label {}
+    canvas c3
+}
+
+annotation a79 {
+    iconcoords {412.0 166.0}
+    type text
+    label {210.0.0.0/24}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    effects {bold}
+    canvas c3
+}
+
+annotation a80 {
+    iconcoords {325.0 228.0}
+    type text
+    label {130.10.0.10/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a81 {
+    type text
+    iconcoords {248.0 352.0}
+    label {}
+    canvas c3
+}
+
+annotation a82 {
+    iconcoords {486.0 284.0}
+    type text
+    label {130.10.128.1/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a83 {
+    iconcoords {352.0 283.0}
+    type text
+    label {130.10.64.1/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a84 {
+    iconcoords {502.0 228.0}
+    type text
+    label {130.10.192.10/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a85 {
+    iconcoords {205.0 268.0}
+    type text
+    label {130.10.0.11/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a86 {
+    iconcoords {291.0 397.0}
+    type text
+    label {130.10.64.2/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a87 {
+    iconcoords {564.0 399.0}
+    type text
+    label {130.10.128.2/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c3
+}
+
+annotation a88 {
+    iconcoords {708.0 244.0}
+    type text
+    label {130.10.192.11/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a89 {
+    iconcoords {285.0 253.0}
+    type text
+    label {130.10.0.0/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    effects {bold}
+    canvas c3
+}
+
+annotation a90 {
+    iconcoords {350.0 336.0}
+    type text
+    label {130.10.64.0/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    effects {bold}
+    canvas c3
+}
+
+annotation a91 {
+    iconcoords {506.0 337.0}
+    type text
+    label {130.10.128.0/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    effects {bold}
+    canvas c3
+}
+
+annotation a92 {
+    iconcoords {592.0 257.0}
+    type text
+    label {130.10.192.0/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    effects {bold}
+    canvas c3
+}
+
+annotation a93 {
+    iconcoords {72.0 317.0}
+    type text
+    label {130.10.32.10/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a94 {
+    type text
+    iconcoords {106.0 248.0}
+    label {}
+    canvas c3
+}
+
+annotation a95 {
+    iconcoords {26.0 183.0}
+    type text
+    label {130.10.32.1/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a96 {
+    iconcoords {32.0 368.0}
+    type text
+    label {130.10.32.2/19}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a97 {
+    iconcoords {783.0 193.0}
+    type text
+    label {130.10.208.10/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a98 {
+    iconcoords {871.0 259.0}
+    type text
+    label {130.10.224.1/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a99 {
+    iconcoords {841.0 327.0}
+    type text
+    label {130.10.240.1/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a100 {
+    iconcoords {900.0 31.0}
+    type text
+    label {130.10.208.1/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
+}
+
+annotation a101 {
+    iconcoords {1037.0 157.0}
+    type text
+    label {130.10.208.2/20}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
+    canvas c3
 }
 
 canvas c1 {
@@ -1648,6 +2906,17 @@ canvas c1 {
     refpt {0 0 47.5791667 -122.132322 2.0}
     scale {150.0}
     size {1300 1000}
+}
+
+canvas c2 {
+    name {Canvas2}
+}
+
+canvas c3 {
+    name {Canvas3}
+    refpt {0 0 47.5791667 -122.132322 2.0}
+    scale {150.0}
+    size {1400 750}
 }
 
 option global {
