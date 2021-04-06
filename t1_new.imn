@@ -4,11 +4,11 @@ node n1 {
     network-config {
 	hostname n1
 	!
+	interface eth2
+	!
 	interface eth4
 	!
 	interface eth3
-	!
-	interface eth2
 	!
 	interface eth1
 	!
@@ -16,11 +16,10 @@ node n1 {
 	!
     }
     canvas c1
-    iconcoords {733.6666666666666 187.0}
-    labelcoords {733.6666666666666 219.0}
+    iconcoords {733.6666666666665 187.0}
+    labelcoords {733.6666666666665 219.0}
     interface-peer {eth0 n2}
     interface-peer {eth1 n3}
-    interface-peer {eth2 n11}
     interface-peer {eth3 n12}
     custom-config {
 	custom-config-id service:zebra
@@ -55,7 +54,7 @@ node n1 {
 	ip route 130.10.80.0/20 130.10.64.11
 	ip route 130.10.96.0/20 130.10.64.11
 	ip route 130.10.112.0/20 130.10.64.11
-	ip route 130.10.144.0/19 130.10.112.11
+	ip route 130.10.160.0/19 130.10.128.11
 	ip route 130.10.208.0/20 130.10.192.11
 	ip route 130.10.224.0/20 130.10.192.11
 	ip route 130.10.240.0/20 130.10.192.11
@@ -65,6 +64,7 @@ node n1 {
     }
     services {zebra IPForward}
     interface-peer {eth4 n26}
+    interface-peer {eth2 n11}
 }
 
 node n2 {
@@ -296,48 +296,6 @@ node n10 {
     interface-peer {e0 n3}
     interface-peer {e1 n23}
     interface-peer {e2 n22}
-}
-
-node n11 {
-    type router
-    model router
-    network-config {
-	hostname n11
-	!
-	interface eth1
-	!
-	interface eth0
-	!
-    }
-    canvas c1
-    iconcoords {880.0 365.0}
-    labelcoords {880.0 397.0}
-    interface-peer {eth0 n1}
-    custom-config {
-	custom-config-id service:zebra
-	custom-command zebra
-	config {
-	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
-	}
-    }
-    custom-config {
-	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
-	custom-command /usr/local/etc/quagga/Quagga.conf
-	config {
-	interface eth0
-	ip address 130.10.128.11/19
-	!
-	interface eth1
-	ip address 130.10.144.10/19
-	
-	ip route 130.10.128.0/19 eth0
-	ip route 130.10.144.0/19 eth1
-	ip route 0.0.0.0/0 130.10.128.10
-	
-	}
-    }
-    services {zebra IPForward}
-    interface-peer {eth1 n17}
 }
 
 node n12 {
@@ -711,8 +669,8 @@ node n17 {
     canvas c1
     iconcoords {963.0 523.0}
     labelcoords {963.0 547.0}
-    interface-peer {e0 n11}
     interface-peer {e1 n18}
+    interface-peer {e0 n11}
 }
 
 node n18 {
@@ -725,8 +683,8 @@ node n18 {
 	!
     }
     canvas c1
-    iconcoords {1028.0 653.0}
-    labelcoords {1028.0 685.0}
+    iconcoords {1027.0 652.0}
+    labelcoords {1027.0 684.0}
     custom-config {
 	custom-config-id service:UserDefined
 	custom-command UserDefined
@@ -739,8 +697,8 @@ node n18 {
 	custom-config-id service:UserDefined:setup.sh
 	custom-command setup.sh
 	config {
-	ip addr add 130.10.144.1/19 dev eth0
-	ip route add default via 130.10.144.10 dev eth0
+	ip addr add 130.10.160.1/19 dev eth0
+	ip route add default via 130.10.160.10 dev eth0
 	}
     }
     services {DefaultRoute SSH UserDefined}
@@ -757,8 +715,8 @@ node n26 {
 	!
     }
     canvas c1
-    iconcoords {735.0 64.0}
-    labelcoords {735.0 96.0}
+    iconcoords {735.0 65.0}
+    labelcoords {735.0 97.0}
     interface-peer {eth0 n1}
     services {zebra IPForward}
     custom-config {
@@ -778,6 +736,48 @@ node n26 {
 	
 	}
     }
+}
+
+node n11 {
+    type router
+    model router
+    network-config {
+	hostname n11
+	!
+	interface eth1
+	!
+	interface eth0
+	!
+    }
+    canvas c1
+    iconcoords {879.3333333333333 359.33333333333337}
+    labelcoords {879.3333333333333 391.33333333333326}
+    custom-config {
+	custom-config-id service:zebra
+	custom-command zebra
+	config {
+	files=('/usr/local/etc/quagga/Quagga.conf', 'quaggaboot.sh', '/usr/local/etc/quagga/vtysh.conf', )
+	}
+    }
+    custom-config {
+	custom-config-id service:zebra:/usr/local/etc/quagga/Quagga.conf
+	custom-command /usr/local/etc/quagga/Quagga.conf
+	config {
+	interface eth0
+	ip address 130.10.128.11/19
+	
+	interface eth1
+	ip address 130.10.160.10/19
+	
+	ip route 130.10.160.0/19 eth1
+	ip route 130.10.128.0/19 eth0
+	ip route 0.0.0.0/0 130.10.128.10
+	
+	}
+    }
+    services {zebra IPForward}
+    interface-peer {eth0 n1}
+    interface-peer {eth1 n17}
 }
 
 link l1 {
@@ -802,11 +802,6 @@ link l4 {
 
 link l5 {
     nodes {n1 n3}
-    bandwidth 0
-}
-
-link l6 {
-    nodes {n1 n11}
     bandwidth 0
 }
 
@@ -890,11 +885,6 @@ link l24 {
     bandwidth 0
 }
 
-link l12 {
-    nodes {n11 n17}
-    bandwidth 0
-}
-
 link l20 {
     nodes {n17 n18}
     bandwidth 0
@@ -902,6 +892,16 @@ link l20 {
 
 link l25 {
     nodes {n1 n26}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n1 n11}
+    bandwidth 0
+}
+
+link l12 {
+    nodes {n11 n17}
     bandwidth 0
 }
 
@@ -1182,20 +1182,20 @@ annotation a28 {
 annotation a29 {
     iconcoords {877.3333333333334 413.66666666666663}
     type text
-    label {130.10.144.10/19}
+    label {130.10.160.10/19}
     labelcolor black
     fontfamily {Arial}
-    fontsize {12}
+    fontsize 12
     canvas c1
 }
 
 annotation a30 {
     iconcoords {963.3333333333334 592.6666666666666}
     type text
-    label {130.10.144.1/19}
+    label {130.10.160.1/19}
     labelcolor black
     fontfamily {Arial}
-    fontsize {12}
+    fontsize 12
     canvas c1
 }
 
@@ -1205,7 +1205,7 @@ annotation a31 {
     label {210.0.0.1/24}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1215,7 +1215,7 @@ annotation a32 {
     label {Rede 130.10.0.0/16}
     labelcolor black
     fontfamily {Arial}
-    fontsize 14
+    fontsize {14}
     effects {bold}
     canvas c1
 }
