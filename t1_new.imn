@@ -16,8 +16,8 @@ node n1 {
 	!
     }
     canvas c1
-    iconcoords {733.6666666666665 187.0}
-    labelcoords {733.6666666666665 219.0}
+    iconcoords {734.6666666666665 187.0}
+    labelcoords {734.6666666666665 219.0}
     interface-peer {eth0 n2}
     interface-peer {eth1 n3}
     interface-peer {eth3 n12}
@@ -44,6 +44,8 @@ node n1 {
 	interface eth3
 	ip address 130.10.192.10/20
 	!
+	interface eth4
+	ip address 210.0.0.2/24
 	
 	ip route 130.10.0.0/19 eth0
 	ip route 130.10.64.0/20 eth1
@@ -79,8 +81,8 @@ node n2 {
 	!
     }
     canvas c1
-    iconcoords {401.3333333333333 240.33333333333334}
-    labelcoords {401.3333333333333 272.3333333333333}
+    iconcoords {401.33333333333326 240.33333333333337}
+    labelcoords {401.33333333333326 272.33333333333326}
     interface-peer {eth0 n5}
     interface-peer {eth1 n1}
     custom-config {
@@ -734,6 +736,7 @@ node n26 {
 	ip address 210.0.0.1/24
 	!
 	
+	ip route 0.0.0.0/0 210.0.0.2
 	}
     }
 }
@@ -1185,7 +1188,7 @@ annotation a29 {
     label {130.10.160.10/19}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1195,7 +1198,7 @@ annotation a30 {
     label {130.10.160.1/19}
     labelcolor black
     fontfamily {Arial}
-    fontsize 12
+    fontsize {12}
     canvas c1
 }
 
@@ -1217,6 +1220,16 @@ annotation a32 {
     fontfamily {Arial}
     fontsize {14}
     effects {bold}
+    canvas c1
+}
+
+annotation a33 {
+    iconcoords {667.0 139.0}
+    type text
+    label {210.0.0.2/24}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize 12
     canvas c1
 }
 
